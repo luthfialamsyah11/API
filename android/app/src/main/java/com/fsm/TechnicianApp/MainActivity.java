@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.fsm.TechnicianApp;
 
 import com.getcapacitor.BridgeActivity;
 

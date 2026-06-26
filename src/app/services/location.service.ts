@@ -8,6 +8,7 @@ export class LocationService {
 
   private watchId: string | null = null;
   private isTracking = false;
+  private lastUpdateTime = 0;
 
   async startTracking() {
     if (this.isTracking) return;
@@ -22,6 +23,11 @@ export class LocationService {
             return;
           }
           if (position) {
+            const now = Date.now();
+            // Prevent spamming the API and freezing the UI (ANR) on emulators
+            if (now - this.lastUpdateTime < 10000) return;
+            this.lastUpdateTime = now;
+
             try {
               await this.api.updateLocation(
                 position.coords.latitude,
